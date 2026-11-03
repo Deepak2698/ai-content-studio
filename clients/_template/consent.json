@@ -1,0 +1,12 @@
+{
+  "person": "Full name of the person whose voice and face are cloned",
+  "voice_consent": false,
+  "likeness_consent": false,
+  "commercial_use": false,
+  "scope": "Short-form social videos for <brand> only",
+  "signed_on": "",
+  "expires": "",
+  "evidence": "consent-signed.pdf (keep the signed copy in this folder)",
+  "synthetic": false,
+  "notes": "Set voice_consent and likeness_consent to true ONLY after the person has signed. The engine refuses to render a real person without it."
+}

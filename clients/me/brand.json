@@ -1,0 +1,51 @@
+{
+  "name": "Me",
+  "handle": "",
+  "language": "English",
+  "niche": "",
+  "audience": "",
+  "tone": "friendly, confident, simple words, no jargon",
+  "do": [],
+  "dont": [],
+  "cta": "Follow for more",
+  "voice": {
+    "engine": "clone",
+    "sample": "voice.wav",
+    "sample_text": "",
+    "tts_model": ""
+  },
+  "avatar": "avatar.mp4",
+  "lipsync": "musetalk",
+  "auto_approve": false,
+  "platforms": [
+    "instagram",
+    "youtube"
+  ],
+  "sheet": {
+    "backend": "",
+    "sheet_id": "",
+    "tab": ""
+  },
+  "style": {
+    "font": "Arial Black",
+    "font_file": "",
+    "primary": "#FFFFFF",
+    "accent": "#FFE500",
+    "outline": "#000000",
+    "caption_size": 84,
+    "words_per_line": 3,
+    "caption_y": 0.64,
+    "hook_bg": "#000000"
+  },
+  "logo": "logo.png",
+  "intro": "",
+  "outro": "",
+  "music": "music",
+  "music_volume": 0.16,
+  "broll": {
+    "enabled": true,
+    "max_clips": 3,
+    "seconds": 2.4
+  },
+  "punch_ins": true
+}

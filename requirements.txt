@@ -1,0 +1,8 @@
+anthropic>=2.4
+pydantic>=2
+gspread>=6
+google-auth>=2.30
+requests>=2.31
+pillow>=10
+numpy>=1.26
+openpyxl>=3.1

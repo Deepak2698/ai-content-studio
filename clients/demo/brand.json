@@ -1,0 +1,51 @@
+{
+  "name": "Demo (Mac test voice)",
+  "handle": "@demo",
+  "language": "English",
+  "niche": "creator productivity tips",
+  "audience": "new content creators",
+  "tone": "friendly, confident, simple words, no jargon",
+  "do": [],
+  "dont": [],
+  "cta": "Follow for more creator tips",
+  "voice": {
+    "engine": "say",
+    "sample": "",
+    "sample_text": "",
+    "tts_model": ""
+  },
+  "avatar": "../../../ai-creator-studio/examples/placeholder_avatar.png",
+  "lipsync": "none",
+  "auto_approve": false,
+  "platforms": [
+    "instagram",
+    "youtube"
+  ],
+  "sheet": {
+    "backend": "",
+    "sheet_id": "",
+    "tab": ""
+  },
+  "style": {
+    "font": "Arial Black",
+    "font_file": "",
+    "primary": "#FFFFFF",
+    "accent": "#00E5FF",
+    "outline": "#000000",
+    "caption_size": 84,
+    "words_per_line": 3,
+    "caption_y": 0.64,
+    "hook_bg": "#111111"
+  },
+  "logo": "logo.png",
+  "intro": "",
+  "outro": "",
+  "music": "music",
+  "music_volume": 0.16,
+  "broll": {
+    "enabled": true,
+    "max_clips": 3,
+    "seconds": 2.4
+  },
+  "punch_ins": true
+}

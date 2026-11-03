@@ -1,0 +1,12 @@
+{
+  "person": "Me (the account owner)",
+  "voice_consent": false,
+  "likeness_consent": false,
+  "commercial_use": false,
+  "scope": "My own content, my own channels",
+  "signed_on": "",
+  "expires": "",
+  "evidence": "consent-signed.pdf (keep the signed copy in this folder)",
+  "synthetic": false,
+  "notes": "This is you. Set voice_consent and likeness_consent to true and fill signed_on with today's date to confirm you consent to cloning your own voice and face."
+}

@@ -1,0 +1,3 @@
+#!/bin/zsh
+# Content Engine command line. Example:  ./ce doctor
+cd "${0:A:h}" && exec .venv/bin/python -m engine "$@"

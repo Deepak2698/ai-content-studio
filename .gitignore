@@ -1,0 +1,14 @@
+.venv/
+.env
+__pycache__/
+output/
+ready/
+cache/
+logs/
+credentials/
+# client media (voices, faces) stay private and out of git
+clients/*/voice*
+clients/*/avatar*
+clients/*/music/
+!clients/demo/
+calendar.csv
