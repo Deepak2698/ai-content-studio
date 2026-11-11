@@ -4,7 +4,7 @@ You decide the topics. The engine does the rest:
 
 ```
 Google Sheet row ──► AI writes the script ──► YOU approve ──► your cloned voice + avatar ──► pro edit ──► quality check ──► ready/ folder
-   (topic)            (Claude, in your style)    (status)       (AI Creator Studio)          (captions, zooms,      (length, loudness,     (reel.mp4, cover.jpg,
+   (topic)            (ChatGPT or Claude)       (status)       (AI Creator Studio)          (captions, zooms,      (length, loudness,     (reel.mp4, cover.jpg,
                                                                                               b-roll, music)          9:16, captions)         caption.txt)
 ```
 
@@ -70,8 +70,15 @@ lists, and colours (`style.accent` is the highlight colour of the captions). Opt
 
 The `.env` file in this folder holds your private keys. Open it with TextEdit (`open -e .env`) and paste:
 
-- `ANTHROPIC_API_KEY`: from [console.anthropic.com](https://console.anthropic.com) → API Keys. Needed for AI scripts
-  (about 5-10 US cents per script with Claude Opus 5.5). Without it, write scripts into the `script` column yourself.
+- **One AI key for script writing**, either:
+  - `OPENAI_API_KEY` (ChatGPT): from [platform.openai.com/api-keys](https://platform.openai.com/api-keys).
+    A ChatGPT Plus subscription does **not** include this; the API is billed separately, pay as you go
+    (a few US cents per script). The model is set by `OPENAI_MODEL`.
+  - or `ANTHROPIC_API_KEY` (Claude): from [console.anthropic.com](https://console.anthropic.com) → API Keys
+    (about 5-10 US cents per script with Claude Opus 5.5).
+
+  If both are filled in, ChatGPT is used (set `SCRIPT_WRITER=claude` to switch). Without a key, write scripts
+  into the `script` column yourself, for example by pasting the topic into the ChatGPT app.
 - `PEXELS_API_KEY` (free, [pexels.com/api](https://www.pexels.com/api/)) and/or `PIXABAY_API_KEY` (free): stock b-roll.
   Without them, reels have no b-roll shots.
 

@@ -1,8 +1,9 @@
 """AI script writer: a topic + the client's brand voice -> a 30-60 s reel script with a 2-second hook.
 
-Uses Claude (default model claude-opus-5-5) with structured output, so the result always has the
-same fields. If Anthropic's safety system declines a request, `fallbacks: "default"` lets the API
-retry it on another Claude model automatically.
+Uses ChatGPT (OpenAI, OPENAI_MODEL) or Claude (Anthropic, CLAUDE_MODEL), whichever has a key in .env
+(SCRIPT_WRITER=openai or claude picks one when both do). Both use structured output, so the result
+always has the same fields. For Claude, `fallbacks: "default"` lets the API retry a declined request
+on another Claude model automatically.
 """
 from pydantic import BaseModel, Field
 
@@ -55,16 +56,50 @@ def brand_brief(brand):
     return "\n".join(lines)
 
 
-def write_script(topic, brand, notes=""):
-    import anthropic
+def writer():
+    """Which AI writes scripts: "openai", "claude", or None when no key is set."""
+    choice = config.env("SCRIPT_WRITER", "auto").lower()
+    keys = {"openai": config.env("OPENAI_API_KEY"), "claude": config.env("ANTHROPIC_API_KEY")}
+    if choice in keys:
+        return choice if keys[choice] else None
+    return next((name for name, key in keys.items() if key), None)
 
-    if not config.env("ANTHROPIC_API_KEY"):
-        raise NeedsSetup("ANTHROPIC_API_KEY is empty in .env, so the AI can't write scripts yet. "
-                           "Paste your key into .env, or type the script into the sheet yourself.")
-    client = anthropic.Anthropic(api_key=config.env("ANTHROPIC_API_KEY"))
+
+def write_script(topic, brand, notes=""):
     prompt = f"{brand_brief(brand)}\n\nTopic / hook idea for this reel:\n{topic}"
     if notes:
         prompt += f"\n\nFeedback on the previous version (apply it):\n{notes}"
+    which = writer()
+    if which == "openai":
+        out = _write_openai(prompt)
+    elif which == "claude":
+        out = _write_claude(prompt)
+    else:
+        raise NeedsSetup("No AI key in .env, so the AI can't write scripts yet. Paste an OpenAI (ChatGPT) or "
+                         "Anthropic (Claude) key into .env, or type the script into the sheet yourself.")
+    out.hashtags = [h if h.startswith("#") else f"#{h}" for h in (t.strip().replace(" ", "") for t in out.hashtags) if h]
+    return out
+
+
+def _write_openai(prompt):
+    import openai
+
+    client = openai.OpenAI(api_key=config.env("OPENAI_API_KEY"))
+    resp = client.responses.parse(model=config.env("OPENAI_MODEL", "gpt-5.5"), instructions=SYSTEM, input=prompt,
+                                  text_format=ReelScript, max_output_tokens=16000)
+    for item in resp.output:
+        for part in getattr(item, "content", None) or []:
+            if part.type == "refusal":
+                raise RuntimeError("ChatGPT declined this topic. Rephrase the topic and set the row back to Idea.")
+    if resp.output_parsed is None:
+        raise RuntimeError(f"Script writer returned no usable script (status={resp.status}).")
+    return resp.output_parsed
+
+
+def _write_claude(prompt):
+    import anthropic
+
+    client = anthropic.Anthropic(api_key=config.env("ANTHROPIC_API_KEY"))
     request = dict(model=config.env("CLAUDE_MODEL", "claude-opus-5-5"), max_tokens=16000, system=SYSTEM,
                    messages=[{"role": "user", "content": prompt}], output_config={"effort": "medium"},
                    output_format=ReelScript)
@@ -78,9 +113,7 @@ def write_script(topic, brand, notes=""):
         raise RuntimeError("Claude declined this topic. Rephrase the topic and set the row back to Idea.")
     if resp.stop_reason == "max_tokens" or resp.parsed_output is None:
         raise RuntimeError(f"Script writer returned no usable script (stop_reason={resp.stop_reason}).")
-    out = resp.parsed_output
-    out.hashtags = [h if h.startswith("#") else f"#{h}" for h in (t.strip().replace(" ", "") for t in out.hashtags) if h]
-    return out
+    return resp.parsed_output
 
 
 def word_count_seconds(script, words_per_second=2.6):

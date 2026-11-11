@@ -59,7 +59,7 @@ Options, cheapest first:
 
 | Item | Approx. cost |
 |---|---|
-| AI script (Claude Opus 5.5, ~2k tokens in, ~3k out incl. thinking) | US$0.05-0.10 |
+| AI script (ChatGPT or Claude Opus 5.5, ~2k tokens in, ~3k out incl. reasoning) | US$0.02-0.10 |
 | Voice clone + edit on your Mac | electricity only |
 | Lip-sync on a cloud GPU (2-5 GPU-minutes) | US$0.03-0.15 |
 | Stock b-roll (Pexels/Pixabay) | free |

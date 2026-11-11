@@ -2,7 +2,7 @@
 import shutil
 import subprocess
 
-from . import config, publish, render, schedule
+from . import config, publish, render, schedule, scriptwriter
 from .clients import all_clients
 
 OK, WARN, BAD = "✅", "🟡", "❌"
@@ -36,11 +36,14 @@ def run():
                           "" if render.lipsync_installed() else "In ai-creator-studio run: ./setup.sh lipsync"))
 
     print("\nAI script writer")
-    if config.env("ANTHROPIC_API_KEY"):
-        marks.append(line(OK, f"Anthropic key present, model {config.env('CLAUDE_MODEL', 'claude-opus-5-5')}"))
+    which = scriptwriter.writer()
+    if which == "openai":
+        marks.append(line(OK, f"ChatGPT (OpenAI) key present, model {config.env('OPENAI_MODEL', 'gpt-5.5')}"))
+    elif which == "claude":
+        marks.append(line(OK, f"Claude (Anthropic) key present, model {config.env('CLAUDE_MODEL', 'claude-opus-5-5')}"))
     else:
-        marks.append(line(WARN, "no ANTHROPIC_API_KEY: rows need a hand-written script",
-                          "Paste your key into .env (console.anthropic.com → API Keys)"))
+        marks.append(line(WARN, "no AI key: rows need a hand-written script",
+                          "Paste an OpenAI key (platform.openai.com/api-keys) or Anthropic key into .env"))
 
     print("\nContent calendar")
     try:
